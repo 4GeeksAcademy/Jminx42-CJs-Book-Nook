@@ -17,7 +17,10 @@ export const Login = () => {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        actions.clearError();
+        setTimeout(() => {
+            actions.clearError();
+            actions.clearAlert();
+        }, 3000);
     }, []);
 
     const validateForm = () => {
@@ -58,66 +61,82 @@ export const Login = () => {
                     {store.errorMsg}
                 </div>
             )}
-            <div className="card p-5">
-                <form className="Auth-form container" onSubmit={handleLoginSubmit}>
-                    <Link to="/">
-                        <div className="text-center custom-bg-img rounded">
-                            <LazyLoadImage
-                                src={CJBookNookLogo}
-                                alt="CJ Book Nook Logo"
-                                className="my-2 border rounded-circle img-responsive"
-                                effect="blur"
-                                style={{ width: '150px' }}
-                            />
-                        </div>
-                    </Link>
-                    <div className="Auth-form-content">
-
-                        <h3 className="Auth-form-title text-center mt-3">Login</h3>
-                        <div className="text-center">
-                            Not registered yet?{" "}
-                            <Link to="/register">
-                                <span className="link-like">
-                                    Sign Up
-                                </span>
+            <div className="card border-0">
+                <form className="Auth-form container-fluid" onSubmit={handleLoginSubmit}>
+                    <div className='row d-flex justify-content-center'>
+                        <div className='col-md-10 col-lg-9 text-center'>
+                            <Link to="/">
+                                <div className="text-center custom-bg-img rounded">
+                                    <LazyLoadImage
+                                        src={CJBookNookLogo}
+                                        alt="CJ Book Nook Logo"
+                                        className="my-2 border rounded-circle"
+                                        effect="blur"
+                                        style={{ width: '150px' }}
+                                    />
+                                </div>
                             </Link>
                         </div>
-                        <div className="form-group mt-3">
-                            <label>Email address</label>
-                            <input
-                                type="email"
-                                className={`form-control mt-1 ${errors.email && 'is-invalid'}`}
-                                placeholder="Enter email"
-                                aria-label="Email"
-                                value={formData.email}
-                                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                            />
-                            {errors.email && (
-                                <div className="invalid-feedback">{errors.email}</div>
-                            )}
+                    </div>
+                    <div className="Auth-form-content container-fluid m-1">
+                        <div className='row d-flex justify-content-center mb-2'>
+                            <div className='col-md-10 col-lg-9 text-center'>
+                                <h3 className="Auth-form-title">Login</h3>
+                                <div>
+                                    Not registered yet?{" "}
+                                    <Link to="/register">
+                                        <span className="link-like">
+                                            Sign Up
+                                        </span>
+                                    </Link>
+                                </div>
+                            </div>
                         </div>
-                        <div className="form-group mt-3">
-                            <label>Password</label>
-                            <input
-                                type="password"
-                                className={`form-control mt-1 ${errors.password && 'is-invalid'}`}
-                                placeholder="Enter password"
-                                aria-label="Password"
-                                value={formData.password}
-                                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                            />
-                            {errors.password && (
-                                <div className="invalid-feedback">{errors.password}</div>
-                            )}
+                        <div className='row d-flex justify-content-center'>
+                            <div className='col-md-10 col-lg-9'>
+                                <div className="form-group mt-2">
+                                    <label>Email address</label>
+                                    <input
+                                        type="email"
+                                        className={`form-control mt-1 ${errors.email && 'is-invalid'}`}
+                                        placeholder="Enter email"
+                                        aria-label="Email"
+                                        value={formData.email}
+                                        onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                                    />
+                                    {errors.email && (
+                                        <div className="invalid-feedback">{errors.email}</div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        <div className="d-grid gap-2 mt-3">
-                            <button type="submit" className="btn custom-button">
-                                Login
-                            </button>
+                        <div className='row d-flex justify-content-center'>
+                            <div className='col-md-10 col-lg-9'>
+                                <div className="form-group mt-2">
+                                    <label>Password</label>
+                                    <input
+                                        type="password"
+                                        className={`form-control mt-1 ${errors.password && 'is-invalid'}`}
+                                        placeholder="Enter password"
+                                        aria-label="Password"
+                                        value={formData.password}
+                                        onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                                    />
+                                    {errors.password && (
+                                        <div className="invalid-feedback">{errors.password}</div>
+                                    )}
+                                </div>
+                            </div>
                         </div>
-                        {/* <p className="text-center mt-2">
-                            Forgot <a className="link-like" href="#">password?</a>
-                        </p> */}
+                        <div className='row d-flex justify-content-center'>
+                            <div className='col-md-10 col-lg-9'>
+                                <div className="d-grid gap-2 mt-3">
+                                    <button type="submit" className="btn custom-button">
+                                        Login
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

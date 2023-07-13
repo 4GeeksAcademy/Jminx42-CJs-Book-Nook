@@ -1,16 +1,8 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
-
+import React from "react";
 import "../../styles/index.css"
-
-
 import "../../styles/home.css";
 // Why does the prop need to be called "item"??
 export const SupportCard = ({ item }) => {
-    const { store, actions } = useContext(Context);
-
-
 
     return (
 

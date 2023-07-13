@@ -13,30 +13,27 @@ const getState = ({ getStore, getActions, setStore }) => {
 			alert: '',
 
 
-
 		},
 		actions: {
-
-			updateUserItems: () => {
-				const updatedItems = getStore().user.items.map((item) => {
-					return {
-						...item,
-						in_progress: false
-					};
-				});
-				console.log(updatedItems)
-				setStore({ ...getStore().user, user: { items: updatedItems } });
-			},
 
 			setActiveTab: (tab) => {
 				setStore({ activeTab: tab })
 			},
 
 			capitalizeWords: (str) => {
-				return str
-					.split(' ')
-					.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-					.join(' ');
+				if (str.includes(' ')) {
+					return str
+						.split(' ')
+						.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+						.join(' ');
+				} else {
+					return str[0].toUpperCase() + str.slice(1).toLowerCase();
+				}
+				//Not working for only one word like GENRE!!
+			},
+
+			createErrorMsg: (msg) => {
+				setStore({ errorMsg: msg })
 			},
 
 			createAlertMsg: (msg) => {
@@ -268,78 +265,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					console.error(`Error during fetch: ${process.env.BACKEND_URL}api/removeReview`, error);
 				}
 			},
-			// I don't think we are using this one
-			// removeFromCart: async (review_id) => {
-			// 	const opts = {
-			// 		method: 'DELETE',
-			// 		headers: {
-			// 			Authorization: "Bearer " + sessionStorage.getItem("token"),
-			// 			"Content-Type": "application/json"
-			// 		},
-			// 		body: JSON.stringify({ "review_id": review_id })
-			// 	};
 
-			// 	try {
-			// 		const resp = await fetch(process.env.BACKEND_URL + 'api/user/payment-method', opts);
-			// 		if (resp.status !== 200) {
-			// 			const data = await resp.json();
-			// 			const errorMessage = data.error || "Something went wrong";
-			// 			setStore({ errorMsg: errorMessage });
-			// 			return false;
-			// 		} else {
-			// 			await actions.validate_user();
-			// 			getActions().createAlertMsg("Your card was deleted successfully");
-			// 			return true;
-			// 		}
-			// 	} catch (error) {
-			// 		console.error(`Error during fetch: ${process.env.BACKEND_URL}api/user/payment-method`, error);
-			// 	}
-			// },
-			// we might not need this one
-			postPaymentMethod: async (card_type, card_number, card_name, cvc, expiry_date) => {
-				const first_four_numbers = card_number.slice(0, 4);
-				const opts = {
-					method: 'POST',
-					headers: {
-						Authorization: "Bearer " + sessionStorage.getItem("token"),
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						card_type: card_type,
-						card_number: card_number,
-						card_name: card_name,
-						cvc: cvc,
-						expiry_date: expiry_date,
-						first_four_numbers: first_four_numbers
-					})
-				};
-
-				try {
-					const resp = await fetch(process.env.BACKEND_URL + 'api/user/payment-method', opts);
-					if (resp.status !== 200) {
-						const data = await resp.json();
-						const errorMessage = data.error || "Something went wrong";
-						setStore({ errorMsg: errorMessage });
-						return false;
-					} else {
-						const data = await resp.json();
-						await getActions().validate_user();
-						const paymentMethod = { first_four_numbers: first_four_numbers };
-						setStore((prevState) => ({
-							...prevState,
-							user: {
-								...prevState.user,
-								paymentMethod: paymentMethod
-							}
-						}));
-						sessionStorage.setItem("card_number", data.payment_method);
-						getActions().createAlertMsg("Your card was added successfully");
-						return true;
-					}
-				} catch (error) {
-					console.error(`Error during fetch: ${process.env.BACKEND_URL}api/user/payment-method`, error);
-				}
-			},
 
 			getBookFormats: async () => {
 				const response = await fetch(process.env.BACKEND_URL + 'api/bookformat');

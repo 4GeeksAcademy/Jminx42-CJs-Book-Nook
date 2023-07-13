@@ -1,5 +1,5 @@
 
-import React, { useContext, useEffect, useState, useRef } from "react";
+import React, { useContext, useState } from "react";
 import { Context } from "../store/appContext";
 import { Link, useNavigate } from "react-router-dom";
 import "../../styles/index.css";
@@ -34,7 +34,7 @@ export const WishlistCard = ({ item }) => {
 
 
     return (
-        <div className="card d-flex flex-column m-2 p-0 border-0" style={{ width: "12rem" }}>
+        <div className="card d-flex flex-column m-2 p-0 border-0 pb-3" style={{ width: "12rem" }}>
 
             <div className="card-body-custom">
                 {item.book_cover == null || item.book_cover == "" ? (
@@ -65,7 +65,7 @@ export const WishlistCard = ({ item }) => {
                 )}
 
 
-                <div className="card-body">
+                <div className="card-body pb-0">
                     <Link to={`/book/${item.isbn}`} className="link-like">
                         <div className="row d-flex flex-grow-1">
                             <h5 className="card-title text-center">{actions.capitalizeWords(item.title)}</h5>

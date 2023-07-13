@@ -7,13 +7,11 @@ db = SQLAlchemy()
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    # password = db.Column(db.Text, nullable=False)
     password_hash = db.Column(db.LargeBinary, nullable=False)
     full_name = db.Column(db.String(120), nullable=True)
     address = db.Column(db.Text, nullable=True)
     billing_address = db.Column(db.Text, nullable=True)
     user_category = db.Column(db.Integer, db.ForeignKey('user_category.id'), nullable=True)
-    payment_method = db.relationship("PaymentMethod", backref="user")
     wishlist = db.relationship("Wishlist", backref="user")
     review = db.relationship("Review", backref="user")
     transaction = db.relationship("Transaction", backref="user")
@@ -33,8 +31,6 @@ class User(db.Model):
             "password": "",
             "address": self.address,
             "billing_address": self.billing_address,
-            "payment_method": [x.serialize() for x in self.payment_method],
-            # payment method.... way to serialize without revealing user private info?
             "review": [y.serialize() for y in self.review],
             "wishlist": [x.serialize() for x in self.wishlist],
             "items": [item.serialize() for item in self.items if item.in_progress ],
@@ -73,7 +69,6 @@ class Book(db.Model):
     ratings_count = db.Column(db.Integer, unique=False, nullable=True)
     pages = db.Column(db.Integer, unique=False, nullable=True)
     preview = db.Column(db.String(250), nullable=True)
-    # price = db.Column(db.Float, unique=False, nullable=True) /////////////////
     external_reviews = db.relationship("ExternalReview", backref="book")
     items = db.relationship("TransactionItem", backref="book")
     wishlist = db.relationship("Wishlist", backref="book")
@@ -211,7 +206,6 @@ class TransactionItem(db.Model):
 class Transaction(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    # payment_method_id = db.Column(db.Integer, db.ForeignKey('payment_method.id'), nullable=False)
     items = db.relationship("TransactionItem", backref="transaction")
     total_price = db.Column(db.Float, unique= False, nullable=True)
     transaction_created = db.Column(db.DateTime, default=datetime.utcnow)
@@ -225,7 +219,6 @@ class Transaction(db.Model):
         return {
             "id": self.id,
             "user_id": User.query.get(self.user_id).serialize(),
-            # "payment_method_id": self.payment_method_id,
             "items": [item.serialize() for item in self.items],
             "total_price": self.total_price,
             "transaction_created": self.transaction_created.strftime("%d/%m/%Y"),
@@ -235,38 +228,12 @@ class Transaction(db.Model):
         return {
             "id": self.id,
             "user_id": self.user_id,
-            # "payment_method_id": self.payment_method_id,
             "items": [item.serialize() for item in self.items],
             "total_price": self.total_price,
             "transaction_created": self.transaction_created.strftime("%d/%m/%Y"),
             "in_progress": self.in_progress,      
         }
         
-class PaymentMethod(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    card_type = db.Column(db.String(100), nullable=True, unique=False)
-    card_number_hash = db.Column(db.Text, unique=True, nullable=False)
-    first_four_numbers = db.Column(db.Integer, unique=False, nullable=True)
-    card_name = db.Column(db.Text, unique=False, nullable=False)
-    cvc_hash = db.Column(db.Text, unique=False, nullable=False)
-    expiry_date = db.Column(db.DateTime, default=datetime.utcnow)
-    # transactions = db.relationship("Transaction", backref="payment_method")
-    
-    def __repr__(self):
-        return f'<PaymentMethods {self.card_name}>'
-    
-    def serialize(self):
-        return {
-            "id": self.id,
-            "user_id": self.user_id,
-            "card_type": self.card_type,
-            "first_four_numbers": self.first_four_numbers,
-            "card_name": self.card_name,
-            "card_number_hash": "",
-            "cvc_hash": "",
-            "expiry_date": self.expiry_date.strftime("%d/%m/%Y")    
-        }
     
 class Support(db.Model):
     ticket_id = db.Column(db.Integer, primary_key=True)

@@ -15,7 +15,7 @@ export const ProfileBtn = () => {
                 <ul className="dropdown-menu dropdown-menu-end">
                     <li>
 
-                        <button className="dropdown-item" onClick={() => { navigate('/personalInformation') }}>
+                        <button className="dropdown-item" onClick={() => { navigate('/profile') }}>
                             <i className="fa-solid fa-user"></i> My Profile
                         </button>
                     </li>

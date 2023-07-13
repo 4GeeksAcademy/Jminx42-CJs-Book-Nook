@@ -6,6 +6,15 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Merriweather&display=swap');
 
+.modal-open {
+    overflow: hidden;
+}
+
+.navbar-brand img {
+    height: 50px;
+}
+
+
 .custom-button {
     background-color: #cdeeec;
     border-color: #cdeeec;
@@ -15,7 +24,16 @@
 .input-custom:focus {
     box-shadow: 0 0 0 0.25rem #cdeeec;
     border-color: #bce4e2;
+    color: #68B0AB;
 }
+
+.input-custom:active {
+    box-shadow: 0 0 0 0.25rem #cdeeec;
+    border-color: #bce4e2;
+    color: #68B0AB;
+}
+
+
 
 .dark-button {
     background-color: #68B0AB;
@@ -53,8 +71,19 @@
 
 .filter-link {
     color: #0c6e68;
+    text-decoration: none;
 
+}
 
+.filter-link:hover {
+    color: #0c6e68;
+    text-decoration: underline;
+
+}
+
+.preview {
+    padding: 16px 20px;
+    margin-bottom: 0px
 }
 
 .custom-bg-img {
@@ -207,29 +236,6 @@
 }
 
 /* Increase the size of the dots*/
-.carousel-arrow {
-    font-size: 30px !important;
-    color: #0c6e68 !important;
-}
-
-.slick-arrow:before {
-    content: "\2192";
-}
-
-.custom-arrow {
-    color: #0c6e68;
-    border-radius: 10px;
-}
-
-.slick-arrow:before,
-.slick-arrow:before {
-    font-family: slick;
-    font-size: 20px;
-    line-height: 1;
-    opacity: .75;
-    color: #0c6e68;
-    -webkit-font-smoothing: antialiased;
-}
 
 .slick-dots li button:before {
     font-size: 30px !important;
@@ -273,7 +279,11 @@
     height: auto;
 }
 
-
+.checkout-img {
+    width: auto;
+    max-width: 100%;
+    height: auto;
+}
 
 /* Media Queries!!! Define different styles for different screen sizes */
 @media (max-width: 414px) {
@@ -296,10 +306,22 @@
     font-size: calc(1.525rem + 3.3vw);
 }
 
+@media (max-width: 375px) {
+    .checkout-img {
+        width: 100px !important;
+    }
+}
+
 @media (max-width: 582px) {
     .landing-text {
         font-size: 2.4rem;
     }
+
+    .navbar-brand img {
+        height: 35px;
+    }
+
+
 }
 
 @media (min-width: 583px) and (max-width: 659px) {
@@ -309,6 +331,9 @@
 }
 
 @media (min-width: 415px) and (max-width: 768px) {
+    .navbar-brand img {
+        height: 35px;
+    }
 
     .img-responsive,
     .profile-responsive {

@@ -1,10 +1,8 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
-
 import "../../styles/index.css"
 import "../../styles/home.css";
-// The transaction.items is erasing the previous object when a new transaction is created!
+
 export const TransactionCard = ({ item }) => {
     const { store, actions } = useContext(Context);
     const [isCollapsed, setIsCollapsed] = useState(item.id !== 1);

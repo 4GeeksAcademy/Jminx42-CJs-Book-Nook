@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import { Footer } from "../component/footer";
@@ -9,15 +8,19 @@ import { Footer } from "../component/footer";
 
 export const Success = () => {
     const { store, actions } = useContext(Context);
-    const [formData, setFormData] = useState({ subject: "", message: "" });
-    const [alert, setAlert] = useState("");
     const [error, setError] = useState("");
 
     useEffect(() => {
         createTransaction();
-    }, [])
+
+        setTimeout(() => {
+            actions.clearError();
+            actions.clearAlert();
+        }, 3000);
+
+    }, []);
+
     const createTransaction = async () => {
-        const items = store.user.items;
         try {
             const response = await fetch(process.env.BACKEND_URL + 'api/createTransaction', {
                 method: 'POST',
@@ -30,15 +33,16 @@ export const Success = () => {
 
             if (response.status === 200) {
                 const data = await response.json();
-                console.log(data)
-
-                console.log("response was okay")
-                await actions.validate_user()
+                await actions.validate_user();
+                console.log(data);
+                actions.createAlertMsg("Payment was successful!");
+                console.log("response was okay");
             } else {
                 throw new Error('Failed to create transaction');
             }
         } catch (error) {
             console.error('Error:', error);
+            setError(error);
         }
     }
 
@@ -46,13 +50,13 @@ export const Success = () => {
         <div>
             <Navbar />
             {
-                alert && alert !== ""
+                store.alert && store.alert !== ""
                     ?
                     <div className="container">
                         <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mt-3" role="alert">
                             <i className="bi bi-check-circle-fill me-2"></i>
                             <div>
-                                {alert}
+                                {store.alert}
                             </div>
                             <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -87,11 +91,6 @@ export const Success = () => {
                     <button className="btn custom-button text-center mt-5 mb-5"><i className="fa-solid fa-arrow-left">&nbsp; Go Back</i></button>
                 </Link>
             </div>
-
-
-
-
-
 
             <Footer />
         </div>

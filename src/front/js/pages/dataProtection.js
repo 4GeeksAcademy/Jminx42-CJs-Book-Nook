@@ -1,14 +1,54 @@
-import React from 'react';
+import React, { useContext, useEffect } from "react";
 import "../../styles/index.css"
 import { Navbar } from "../component/navbar";
+import { Context } from "../store/appContext";
 import { Footer } from "../component/footer";
 import { Link } from "react-router-dom";
 
 
 export const DataProtection = () => {
+    const { store, actions } = useContext(Context);
+    useEffect(() => {
+        setTimeout(() => {
+            actions.clearError();
+            actions.clearAlert();
+        }, 3000);
+    }, []);
     return (
         <div className="">
             <Navbar />
+            {
+                store.alert && store.alert !== ""
+                    ?
+                    <div className="container">
+                        <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mt-3" role="alert">
+                            <i className="bi bi-check-circle-fill me-2"></i>
+                            <div>
+                                {store.alert}
+                            </div>
+                            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    :
+                    null
+
+            }
+            {
+                store.errorMsg && store.errorMsg !== ""
+                    ?
+                    <div className="container">
+                        <div className="alert alert-danger alert-dismissible fade show d-flex align-items-center mt-3" role="alert">
+                            <i className="bi bi-exclamation-triangle-fill"></i>
+                            <div>
+                                {store.errorMsg}
+                            </div>
+                            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    </div>
+                    :
+                    null
+
+            }
             <div className="container mx-auto">
                 <div className="row mx-auto">
                     <div className="col-12 ">

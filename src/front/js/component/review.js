@@ -1,5 +1,6 @@
 import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
+import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { StarRating } from "../component/StarRating";
 
@@ -7,6 +8,7 @@ import "../../styles/index.css";
 import "../../styles/home.css";
 
 export const Review = ({ item }) => {
+    const params = useParams();
     const { store, actions } = useContext(Context);
     const [editClicked, setEditClicked] = useState(false);
     const [editReview, setEditReview] = useState({
@@ -45,7 +47,10 @@ export const Review = ({ item }) => {
                             {item.user_id != store.user.id ? null : !editClicked ?
                                 <>
                                     <button className="btn custom-button me-2" onClick={() => setEditClicked(true)}><i className="fa-solid fa-pen-to-square"></i></button>
-                                    <button className="btn custom-button" onClick={() => actions.removeFromReviews(item.id)}><i className="fa-solid fa-trash"></i></button>
+                                    <button className="btn custom-button" onClick={async () => {
+                                        await actions.removeFromReviews(item.id)
+
+                                    }}><i className="fa-solid fa-trash"></i></button>
                                 </>
                                 :
                                 <button className="btn custom-button" onClick={async () => {

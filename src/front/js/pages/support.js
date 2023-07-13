@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import { Footer } from "../component/footer";
@@ -11,6 +11,12 @@ export const Support = () => {
     const [alert, setAlert] = useState("");
     const [error, setError] = useState("");
 
+    useEffect(() => {
+        setTimeout(() => {
+            actions.clearError();
+            actions.clearAlert();
+        }, 3000);
+    }, []);
     const submitSupport = async () => {
         if (formData.message.trim() === "") {
             setError("Please enter a message");

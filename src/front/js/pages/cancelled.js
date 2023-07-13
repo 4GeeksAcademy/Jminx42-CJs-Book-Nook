@@ -1,6 +1,5 @@
-import React, { useState, useEffect, useContext } from "react";
-import PropTypes from "prop-types";
-import { Link, useParams } from "react-router-dom";
+import React, { useContext, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "../store/appContext";
 import { Navbar } from "../component/navbar";
 import { Footer } from "../component/footer";
@@ -9,25 +8,25 @@ import { Footer } from "../component/footer";
 
 export const Cancelled = () => {
     const { store, actions } = useContext(Context);
-    const [formData, setFormData] = useState({ subject: "", message: "" });
-    const [alert, setAlert] = useState("");
-    const [error, setError] = useState("");
 
     useEffect(() => {
-        s
-    }, [])
+        setTimeout(() => {
+            actions.clearError();
+            actions.clearAlert();
+        }, 3000);
+    }, []);
 
     return (
         <div>
             <Navbar />
             {
-                alert && alert !== ""
+                store.alert && store.alert !== ""
                     ?
                     <div className="container">
                         <div className="alert alert-success alert-dismissible fade show d-flex align-items-center mt-3" role="alert">
                             <i className="bi bi-check-circle-fill me-2"></i>
                             <div>
-                                {alert}
+                                {store.alert}
                             </div>
                             <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
@@ -37,13 +36,13 @@ export const Cancelled = () => {
 
             }
             {
-                error && error !== ""
+                store.errorMsg && store.errorMsg !== ""
                     ?
                     <div className="container">
                         <div className="alert alert-danger alert-dismissible fade show d-flex align-items-center mt-3" role="alert">
                             <i className="bi bi-exclamation-triangle-fill"></i>
                             <div>
-                                {error}
+                                {store.errorMsg}
                             </div>
                             <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>

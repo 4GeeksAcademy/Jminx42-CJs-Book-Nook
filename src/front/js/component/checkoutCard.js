@@ -7,15 +7,17 @@ import "../../styles/home.css";
 
 export const CheckoutCard = ({ item }) => {
     const { store, actions } = useContext(Context);
-    const [errorMessage, setErrorMessage] = useState("");
-    const [alertMsg, setAlertMsg] = useState("");
+
 
     useEffect(() => {
-        actions.clearError();
+        setTimeout(() => {
+            actions.clearError();
+            actions.clearAlert();
+        }, 3000);
 
     }, []);
 
-    const handleAddUnit = async (transaction_id) => {
+    const handleAddUnit = async () => {
         const opts = {
             method: 'PUT',
             headers: {
@@ -31,11 +33,11 @@ export const CheckoutCard = ({ item }) => {
             if (resp.status !== 200) {
                 const data = await resp.json();
                 const errorMessage = data.error || "Something went wrong";
-                setErrorMessage(errorMessage);
+                actions.createErrorMsg(errorMessage);
                 return false;
             } else {
                 await actions.validate_user();
-                setAlertMsg("Your cart was updated successfully");
+                actions.createAlertMsg("Your cart was updated successfully");
                 return true;
             }
         } catch (error) {
@@ -43,7 +45,7 @@ export const CheckoutCard = ({ item }) => {
         }
     }
 
-    const handleRemoveUnit = async (id) => {
+    const handleRemoveUnit = async () => {
         const opts = {
             method: 'PUT',
             headers: {
@@ -59,11 +61,12 @@ export const CheckoutCard = ({ item }) => {
             if (resp.status !== 200) {
                 const data = await resp.json();
                 const errorMessage = data.error || "Something went wrong";
-                setErrorMessage(errorMessage);
+                actions.createErrorMsg(errorMessage);
                 return false;
             } else {
                 await actions.validate_user();
-                setAlertMsg("Your cart was updated successfully");
+                const data = await resp.json();
+                actions.createAlertMsg(data.item);
                 return true;
             }
         } catch (error) {
@@ -71,7 +74,7 @@ export const CheckoutCard = ({ item }) => {
         }
     }
 
-    const handleRemove = async (id) => {
+    const handleRemove = async () => {
         const opts = {
             method: 'DELETE',
             headers: {
@@ -87,11 +90,11 @@ export const CheckoutCard = ({ item }) => {
             if (resp.status !== 200) {
                 const data = await resp.json();
                 const errorMessage = data.error || "Something went wrong";
-                setErrorMessage(errorMessage);
+                actions.createErrorMsg(errorMessage);
                 return false;
             } else {
                 await actions.validate_user();
-                setAlertMsg("Your item was deleted successfully");
+                actions.createAlertMsg("Your item was deleted successfully");
                 return true;
             }
         } catch (error) {
@@ -102,46 +105,28 @@ export const CheckoutCard = ({ item }) => {
 
     return (
         <div className="container">
-            {
-                store.errorMsg && store.errorMsg !== "" || errorMessage && errorMessage !== ""
-                    ?
-                    <div className="container">
-                        <div className="alert alert-danger alert-dismissible fade show d-flex align-items-center mt-3" role="alert">
-                            <i className="bi bi-exclamation-triangle-fill"></i>
-                            <div>
-                                {store.errorMsg}
-                            </div>
-                            <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                        </div>
-                    </div>
-                    :
-                    null
 
-            }
-
-            <div className="row mb-2" >
-                <div className="col-3 col-sm-2 col-md-2 col-lg-2">
+            <div className="row mb-2 d-flex justify-content-between" >
+                <div className="col-6 col-sm-4 col-md-2 col-lg-2 flex-shrink-1">
                     <Link to={`/book/${item.book_id.isbn}`}>
-                        <img src={item.book_id.book_cover} className="card-img-top" alt="..." />
+                        <img src={item.book_id.book_cover} className="img-responsive" alt="..." />
                     </Link>
                 </div>
-                <div className="col-9 col-sm-4 col-md-3 col-lg-3 col-xl-2">
+                <div className="col-md-3 col-lg-4">
                     <h4 className="text-start">{actions.capitalizeWords(item.book_id.title)}</h4>
                     <p className="text-start mb-0">{item.book_format_id.book_format}</p>
                 </div>
-                <div className="col-6 col-sm-3 col-md-2 col-lg-2 d-flex h-25 justify-content-center align-items-center">
+                <div className="col-md-2 col-lg-2 d-flex h-25 align-items-center">
                     <button className="btn custom-button" onClick={() => handleAddUnit(item.id)}><i className="fa-solid fa-plus"></i></button>
                     <p className="text-center mb-0 px-3">{item.unit}</p>
                     <button className="btn custom-button" onClick={() => handleRemoveUnit(item.id)}><i className="fa-solid fa-minus"></i></button>
 
                 </div>
-                <div className="col-3 col-sm-2 col-md-2 col-lg-1 h-25 d-flex align-items-center">
+                <div className="col-md-2 col-lg-1">
                     <p className="text-center mb-0 p-2">{item.book_format_id.book_price * item.unit}€</p>
                 </div>
-                <div className="col-1 col-sm-1 col-md-1 col-lg-1 h-25 d-flex justify-content-end align-items-center pe-1">
+                <div className="col-md-1 col-lg-1 d-flex h-25 justify-content-end p-0">
                     <button className="btn custom-button" onClick={() => handleRemove(item.id)}><i className="fa-solid fa-trash"></i></button>
-
-
                 </div>
 
             </div>

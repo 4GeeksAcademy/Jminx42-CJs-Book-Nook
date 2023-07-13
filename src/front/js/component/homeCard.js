@@ -37,7 +37,7 @@ export const HomeCard = ({ item }) => {
 
 
     return (
-        <div className="card d-flex flex-column m-2 p-0 border-0" style={{ width: "12rem" }}>
+        <div className="card d-flex flex-column m-2 p-0 border-0 pb-3" style={{ width: "12rem" }}>
 
             <div className="card-body-custom">
                 {item.book_cover == null || item.book_cover == "" ? (
@@ -80,7 +80,7 @@ export const HomeCard = ({ item }) => {
                 )}
 
 
-                <div className="card-body">
+                <div className="card-body pb-0">
                     <Link to={`/book/${item.isbn}`} className="link-like">
                         <div className="row d-flex flex-grow-1">
                             <h5 className="card-title">{actions.capitalizeWords(item.title)}</h5>

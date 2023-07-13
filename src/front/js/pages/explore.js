@@ -32,11 +32,10 @@ export const Explore = () => {
 	useEffect(() => {
 		actions.getBooks();
 		actions.emptyBook();
-
 		setTimeout(() => {
+			actions.clearError();
 			actions.clearAlert();
 		}, 3000);
-
 	}, []);
 
 	const handleGenreCheckboxChange = (value) => {
@@ -99,22 +98,25 @@ export const Explore = () => {
 
 			}
 			<div className="container-fluid text-center mt-5">
+
 				<div className="row d-flex justify-content-center">
 					{store.books && store.books.length !== 0 ? (
-						<>
-							<div className="col-sm-6 col-md-6 col-lg-3  mb-4">
-								<div className="d-flex justify-content-center align-items-baseline ">
+						<div className="container">
+							<div className="row mb-2 ">
+								<div className="d-flex justify-content-center align-items-baseline">
 									<h4>Filter by</h4>
 									<button className="btn custom-button d-flex justify-content-start ms-3" onClick={() => {
 										handleClearGenreFilters()
 										handleClearPublisherFilters()
 									}}>Clear filters</button>
 								</div>
-								<div className="accordion accordion-flush" id="accordionFlushExample">
+							</div>
+							<div className="row mb-3 d-flex justify-content-center">
+								<div className="col-9 col-sm-4 col-md-4 col-lg-4 col-xl-4">
 									<div className="accordion-item">
 										<h2 className="accordion-header">
 											<button
-												className="accordion-button collapsed"
+												className="accordion-button collapsed input-custom"
 												type="button"
 												data-bs-toggle="collapse"
 												data-bs-target="#flush-collapseOne"
@@ -237,10 +239,12 @@ export const Explore = () => {
 											</div>
 										</div>
 									</div>
+								</div>
+								<div className="col-9 col-sm-5 col-md-4 col-lg-4 col-xl-4">
 									<div className="accordion-item">
 										<h2 className="accordion-header">
 											<button
-												className="accordion-button collapsed"
+												className="accordion-button collapsed input-custom"
 												type="button"
 												data-bs-toggle="collapse"
 												data-bs-target="#flush-collapseTwo"
@@ -392,10 +396,12 @@ export const Explore = () => {
 											</div>
 										</div>
 									</div>
+								</div>
+								<div className="col-9 col-sm-3 col-md-3 col-lg-3 col-xl-3">
 									<div className="accordion-item">
 										<h2 className="accordion-header">
 											<button
-												className="accordion-button collapsed"
+												className="accordion-button collapsed input-custom"
 												type="button"
 												data-bs-toggle="collapse"
 												data-bs-target="#flush-collapseThree"
@@ -407,51 +413,47 @@ export const Explore = () => {
 										</h2>
 										<div id="flush-collapseThree" className="accordion-collapse collapse" data-bs-parent="#accordionFlushExample">
 											<div className="accordion-body">
-
 												<input
 													type="text"
-													className="form-control"
+													className="form-control input-custom"
 													placeholder="Enter year"
 													value={year}
 													onChange={(e) => setYear(e.target.value)}
 												/>
-
 											</div>
 										</div>
 									</div>
 								</div>
-							</div> {/*END OF COL*/}
 
-							<div className="row d-flex justify-content-center">
-								{/* <div className="col-sm-12 col-md-12 col-lg-9"> */}
-								{store.books
-									.filter(
-										(book) =>
-											(store.search &&
-												(book.title.toLowerCase().includes(store.search) ||
-													book.author.toLowerCase().includes(store.search))) ||
-											(!store.search && book)
-									)
-									.filter(
-										(book) =>
-											genre.length === 0 || (book.genre && genre.some((g) => book.genre.includes(g)))
-									)
-									.filter(
-										(book) =>
-											publisher.length === 0 ||
-											(book.publisher && publisher.some((p) => book.publisher.includes(p)))
-									)
-									.filter((book) => year === "" || (book.year && book.year.includes(year)))
-									.map((book) => <HomeCard key={book.id} item={book} />)}
-								{/* </div> */}
 							</div>
-							<Footer />
-						</>
-
+							<div className="col-12 col-sm-12 col-md-12 col-lg-12">
+								<div className="row d-flex justify-content-center">
+									{store.books
+										.filter(
+											(book) =>
+												(store.search &&
+													(book.title.toLowerCase().includes(store.search) ||
+														book.author.toLowerCase().includes(store.search))) ||
+												(!store.search && book)
+										)
+										.filter(
+											(book) =>
+												genre.length === 0 || (book.genre && genre.some((g) => book.genre.includes(g)))
+										)
+										.filter(
+											(book) =>
+												publisher.length === 0 ||
+												(book.publisher && publisher.some((p) => book.publisher.includes(p)))
+										)
+										.filter((book) => year === "" || (book.year && book.year.includes(year)))
+										.map((book) => <HomeCard key={book.id} item={book} />)}
+								</div>
+							</div>
+						</div>
 					)
 						:
 						<div>
-							<div className="spinner-border filter-link" role="status">
+							<div className="spinner-border" role="status">
 								<span className="visually-hidden">Loading...</span>
 							</div>
 							<div>
@@ -462,7 +464,7 @@ export const Explore = () => {
 				</div >
 			</div >
 
-
+			<Footer />
 		</div >
 	);
 };

@@ -1,7 +1,7 @@
   
 import os
 from flask_admin import Admin
-from .models import db, User, Book, Review, ExternalReview, Wishlist, Transaction, PaymentMethod, Support, BookFormat, UserCategory, TransactionItem
+from .models import db, User, Book, Review, ExternalReview, Wishlist, Transaction, Support, BookFormat, UserCategory, TransactionItem
 from flask_admin.contrib.sqla import ModelView
 
 def setup_admin(app):
@@ -19,7 +19,6 @@ def setup_admin(app):
     admin.add_view(ModelView(ExternalReview, db.session))
     admin.add_view(ModelView(Wishlist, db.session))
     admin.add_view(ModelView(Transaction, db.session))
-    admin.add_view(ModelView(PaymentMethod, db.session))
     admin.add_view(ModelView(Support, db.session))
     admin.add_view(ModelView(BookFormat, db.session))
     admin.add_view(ModelView(UserCategory, db.session))

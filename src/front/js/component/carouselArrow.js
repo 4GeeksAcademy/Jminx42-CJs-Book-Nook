@@ -1,22 +1,39 @@
-import React, { useState, useContext, useEffect } from "react";
-import { Context } from "../store/appContext";
-import { Link } from "react-router-dom";
-
+import React from "react";
 import "../../styles/index.css"
-
-
 import "../../styles/home.css";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-export const CarouselArrow = ({ className, style, onClick }) => {
-    const { store, actions } = useContext(Context);
+export const CarouselNextArrow = ({ className, onClick, style }) => {
+
 
     return (
-        <div
-            className={className}
-            style={{ ...style, display: "block" }}
-            onClick={onClick}
-        ><i className="fa-solid fa-arrow-right fs-2 bg-dark rounded-circle text-white"></i></div>
+        <>
+            <div
+                className={className}
+                style={{ ...style, background: "black", color: "white", fontWeight: "bold" }}
+                onClick={onClick}
+            >
+
+            </div >
+
+        </>
     );
 }
 
-export default CarouselArrow
+export const CarouselPrevArrow = ({ className, onClick, style }) => {
+
+
+    return (
+        <>
+            <div
+                className={className}
+                style={{ ...style, background: "black", color: "white", fontWeight: "bold" }}
+                onClick={onClick}
+            >
+
+            </div >
+        </>
+    );
+}
+
