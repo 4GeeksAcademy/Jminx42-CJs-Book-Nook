@@ -11,7 +11,7 @@
 }
 
 body {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
 }
 
 .navbar-brand img {
@@ -208,13 +208,13 @@ body {
 
 }
 
-.landing-button:hover {
+/* .landing-button:hover {
     background-color: #68B0AB;
     border-color: #68B0AB;
     color: white;
     border-radius: 0;
 
-}
+} */
 
 .feature-title {
     margin-bottom: 1rem;

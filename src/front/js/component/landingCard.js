@@ -13,7 +13,7 @@ export const LandingCard = ({ item }) => {
 
     return (
 
-        <div className="card d-flex flex-column m-2 p-0 border-0" style={{ width: "12rem", height: "27.3rem" }}>
+        <div className="card d-flex flex-column m-2 p-0 border-0" style={{ width: "12rem", height: "27.4rem" }}>
 
             <Link to={`/book/${item.isbn}`}>
                 <img src={item.book_cover} className="card-img-top contain" alt="..." style={{ height: "300px" }} />
